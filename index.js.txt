@@ -1,0 +1,158 @@
+const Discord = require("discord.js");
+const bot = new Discord.Client();
+const moment = require('moment');
+const client = new Discord.Client();
+const db = require('quick.db');
+require('moment-duration-format');
+
+
+let prefix = "!!";//botun ön eki 
+let owner = "123453123126789";// sizin id'niz
+
+bot.on("ready", guild => {
+    bot.user.setActivity('OYNUYOR KISMI', { type: 'WATCHING'  })
+  .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
+  .catch(console.error);
+    console.log(`[${moment().format('YYYY-MM-DD HH:mm:ss')}] BOT: Þu an ` + bot.channels.size + ` adet kanala, ` + bot.guilds.size + ` adet sunucuya ve ` + bot.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString() + ` kullanýcýya hizmet veriliyor!`);
+    console.log("Baðlandým!")
+});
+
+bot.on("message", message => {
+if (message.content.toLowerCase() === prefix + "avatarým") {
+message.channel.sendEmbed(new Discord.RichEmbed()
+.setDescription(`Avatarýnýz:`)
+.setImage(`${message.author.avatarURL} `)
+.setColor("RANDOM"));
+   }
+});
+
+bot.on("message", message => {
+    if (message.content.toLowerCase() === prefix + 'kurulum') {
+    if (message.author.id !== `${owner}`) {
+      message.reply('Kurucumun izni olmasý lazým. Kurucum');
+    } else {
+      message.channel.sendMessage(` :white_check_mark: Gerekli þeyleri baþarýlý bir þekilde kurdum.`).then(msg => {
+      console.log(`Yeniden baþlýyorum..`);
+      message.guild.createChannel('notech-log');// notech-log adýnda kanal kuracaktýr.
+    })
+   }
+  }
+});
+
+bot.on('message', msg => {
+  if (msg.content.startsWith(prefix + "yaz")) {
+    let mesaj = msg.content.substring(2 + 3);
+    msg.delete();
+    msg.channel.send(mesaj);
+    }
+    });
+
+bot.on('message', msg => {
+  if (msg.content.startsWith(prefix + "çekiliþ")) {
+    msg.channel.send(`Çekiliþi Kazanan: ${msg.guild.members.random().displayName}`);
+    }
+    });
+
+bot.on('message', msg => {
+  if (msg.content.startsWith(prefix + "sikayet")) {//sunucu kurucusuna yazdýðýnýz mesajý gönderir.
+    msg.reply("Þikayetiniz Bildirilmiþtir")
+    let mesaj = msg.content.substring(2 + 3);
+    msg.delete();
+    msg.guild.owner.send(`Þikayet Bildiren: **${msg.author.tag}** \nÞikayet: ` + mesaj);
+    }
+    });
+
+bot.on('message', message => {
+if (message.content.toLowerCase() === prefix + "özlüsöz") {
+    var sans = ["Affetmek geçmiþi deðiþtirmez ama geIeceðin önünü açar","ÝnsanIar seninIe konuþmayý býraktýðýnda, arkandan konuþmaya baþIarIar","Hayattan korkmayýn çocuklar;iyi ve doðru bir þeyler yaptýðýnýz zaman hayat öyle güzel ki","Mutluluðu tatmanýn tek çaresi, onu paylaþmaktýr.","Küçük þeylere gereðinden çok önem verenler, elinden büyük iþ gelmeyenlerdir.","Bize yeni düþmanlar lazým. Eskileri hayranýmýz oldular.","Asla vazgeçmeyin, kaybedenler yalnýzca vazgeçenlerdir.","10 kilitli kapýdan daha güvenlidir babanýn evde oluþu.","Sevmek için “yürek” sürdürmek için “emek” gerek.","Bir insanýn, bir insana verebileceði en güzel hediye; ona ayýrabileceði zamandýr."," Benim neden kardeþim yok baba  Seni görünce ikincisine cesaret edemedik.","Kendini Ne Kadar Büyük Görürsen Gör. Bende Sadece Gözümün Gördüðü Kadarsýn. Ötesi yok.","Mutlu olmayý yarýna býrakmak, karþýya geçmek için nehrin durmasýný beklemeye benzer ve bilirsin, o nehir asla durmaz.– Grange"];
+    var sonuc = sans[Math.floor((Math.random() * sans.length))];
+    const embed = new Discord.RichEmbed()
+      .addField(`¡ ¡ ¡ ¡ ¡ `, `${sonuc}`)
+      .setColor("RANDOM");
+    return message.channel.sendEmbed(embed);
+}
+});
+
+
+bot.on('message', msg => {
+if (msg.content.toLowerCase() === prefix + "futboloyna") {
+msg.channel.send(':soccer :soccer: :goal: :soccer')
+.then(nmsg => nmsg.edit(':soccer: :goal: :soccer:'))
+.then(nmsg => nmsg.edit(':soccer: :goal: :goal:'))
+.then(nmsg => nmsg.edit(':soccer: :goal: :soccer:'))
+.then(nmsg => nmsg.edit(':soccer: :goal:'))
+.then(nmsg => nmsg.edit('**Güzel Maçtý Bro Bidaha Oynayalým :)**'));
+}
+});
+
+bot.on("message", message => {
+    
+    
+  if (message.content.toLowerCase() ===  'sa') {
+    message.reply('Aleyküm selam!');
+  }  
+    if (message.content.toLowerCase() ===  'selamun aleykum') {
+    message.reply('Aleyküm selam!');
+  }   
+
+    if (message.content.toLowerCase() === prefix + 'yenile') {
+    if (message.author.id !== `${owner}`) {
+      message.reply('Bu komudu sadece **Bot Sahibi** kullanabilir!');
+    } else {
+      message.channel.sendMessage(`Yeniden Baþlýyorum`).then(msg => {
+      console.log(`Yeniden baþlýyorum..`);
+      process.exit(0);
+    })
+   }
+  }
+   
+        
+    if (message.content.toLowerCase() === prefix + "sunucubilgi") {
+        const embed = new Discord.RichEmbed()
+            .addField("Sunucu Adý", message.guild.name, true)
+
+            .addField("Sunucu ID", message.guild.id, true)
+
+            .addField("Sunucu Sahibi", message.guild.owner, true)
+
+            .addField("Toplam Üye Sayýsý", message.guild.memberCount, true)
+
+            .addField("AFK Süresi", message.guild.afkTimeout, true)
+
+            .setFooter("Oluþturulma Tarihi " + message.guild.createdAt)
+        
+            .setColor("RANDOM")
+
+        return message.channel.sendEmbed(embed)
+    }
+    
+    if (message.content.toLowerCase() === prefix + "ping") {
+        const embed = new Discord.RichEmbed()
+            .setColor("RANDOM")
+            .setDescription("Pingim :ping_pong: **" + bot.ping + "** Milisaniye")
+          return message.channel.sendEmbed(embed)
+    }   
+    
+    if (message.content.toLowerCase() === prefix + "botbilgi") {
+        const embed = new Discord.RichEmbed()
+            .addField("Bot Sahibi", `<@${owner}>`, true)
+
+            .addField("Version", "2.0.1", true)
+
+            .addField("Toplam Sunucu Sayýsý", bot.guilds.size, true)
+
+            .addField("Toplam Kullanýcý Sayýsý", bot.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString(), true)
+            
+            .addField("Toplam Kanal Sayýsý", bot.channels.size, true)
+			
+            .addField("Çalýþma Süresi", moment.duration(bot.uptime).format('D [gün], H [saat], m [dakika], s [saniye]'), true)
+
+            .addField("Kitaplýk Türü", "discord.js")
+        
+            .setColor("RANDOM")
+        
+        return message.channel.sendEmbed(embed)
+    }
+    
+   
+bot.login(process.env.TOKEN); //deðiþtirmeyin.
